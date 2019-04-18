@@ -1,0 +1,110 @@
+<div class="container" style="margin-top: 80px;">
+  <div class="card" style="margin-top:20px;">
+    <div class="row">
+      <aside class="col-sm-4 border-right">
+        <img src="/assets/img/1/1-1.jpg" width="370px" height="420px">
+      </aside>
+      <aside class="col-sm-7">
+        <article class="card-body p-5">
+          <h3 class="title mb-3">{{trip.title}}</h3>
+  
+          <dl class="item-property">
+            <dd>
+              <p>{{trip.description}} </p>
+            </dd>
+          </dl>
+        
+     
+  <!-- <dl class="param param-feature">
+      <dt>Activities</dt>
+      <dd>........</dd>
+    </dl>  
+    <dl class="param param-feature">
+      <dt>Location</dt>
+      <dd>Russia, USA, and Europe</dd>
+    </dl>     -->
+  
+          <hr>
+          <div class="row">
+            <div class="col-sm-5">
+              <dl class="param param-inline">
+                <dt><h5>Duration</h5></dt>
+                <dd>{{trip.duration}} Nights</dd>
+              </dl>
+            </div>
+            <div class="col-sm-7">
+              <dl class="param param-inline">
+                <dt><h4>Locations</h4></dt>
+                <dd *ngFor="let location of trip.locations">
+               {{location.name}}
+                </dd>
+              </dl>
+            </div>
+  
+  
+  
+          </div>
+          <hr>
+          <button type="button" class="btn btn-primary" (click)='matgroup.selectedIndex = 1'>Book Now</button>
+          
+        </article>
+      </aside>
+    </div>
+  </div>
+
+  <mat-tab-group #matgroup>
+    <mat-tab label="Description">
+        {{trip.description}}  
+    </mat-tab>
+    <mat-tab label="Prices">
+        <div class="card-body table-responsive">
+            <table class="table table-hover">
+                <thead class="text-warning">
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Min Pax</th>
+                    <th>Max Pax</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let prices of trip.tripPricesList">
+                        <td>{{prices.name}}</td>
+                        <td>{{prices.price}} / {{prices.category}}</td>
+                        <td>{{prices.minSize}}</td>
+                        <td>{{prices.maxSize}}</td>
+                        <td><button type="button" class="btn btn-outline-success" [routerLink]="['/newB/', idTrip,prices.id]">Book Now</button> </td>
+                        {{idTrip}} + {{prices.id}}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Includes">
+        <div *ngFor="let includes of trip.includeList" style="margin-top: 20px;">
+            <h5><img src="assets/images/check.png" width="20px" height="20px"> {{includes.title}}</h5>
+            <p>{{includes.description}}</p>
+          </div>
+    </mat-tab>
+    <mat-tab label="Excludes">
+        <div *ngFor="let excludes of trip.excludeList" style="margin-top: 20px;">
+            <h5><img src="assets/images/croix.png" width="20px" height="20px"> {{excludes.title}}</h5>
+            <p>{{excludes.description}}</p>
+          </div>
+    </mat-tab>
+    <mat-tab label="Outline">
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+            <div *ngFor="let itinerary of trip.itineraryList" style="margin-top: 20px;">
+            <ngb-panel title="{{itinerary.duration}} Day : {{itinerary.title}}">
+              <ng-template ngbPanelContent>
+                  <p>{{itinerary.description}}</p>
+              </ng-template>
+            </ngb-panel>  
+            </div>
+            </ngb-accordion>
+    </mat-tab>
+  </mat-tab-group>
+  
+
+
+</div>  

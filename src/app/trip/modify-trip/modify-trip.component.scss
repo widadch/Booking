@@ -1,0 +1,20 @@
+.leftSidebar {
+    width: 200px; 
+    /* Making sidebar fixed */
+    float: right;
+    margin-top: 0px;
+}
+.mainContent {
+    width: 400px;
+    position: fixed;
+}
+ .forms{
+   
+    width: 70%;
+    margin-bottom: 40px;
+
+ }
+
+#btnNext{
+    display: none;
+}

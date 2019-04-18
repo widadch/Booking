@@ -1,0 +1,90 @@
+
+  <div class="main-content">
+    <div class="container-fluid">
+       <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-danger">
+                     <h4 class="card-title ">Users</h4>
+                        <p class="card-category"> </p>
+                </div>
+
+                <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Visitor</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Admin Agency</a>
+                           
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <table class="table" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        
+                                        <th>FirstName</th>
+                                        <th>LastName</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let u1 of user1" >
+                                        
+                                        <td>{{u1.firstName}}</td>
+                                        <td>{{u1.lastName}}</td>
+                                        <td>
+                                            <button mat-raised-button type="button" matTooltip="show details"
+                                            class="btn btn-primary btn-link btn-sm btn-just-icon" [routerLink]="['/test/',u1.id]" >
+                                            <i class="material-icons">
+                                            visibility
+                                            </i>
+                                            </button>
+                                            </td>
+                                            
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <table class="table" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                       
+                                        <th>FirstName</th>
+                                        <th>LastName</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let u2 of user2" >
+                                        
+                                        <td>{{u2.firstName}}</td>
+                                        <td>{{u2.lastName}}</td>
+                                        <td>
+                                            <button mat-raised-button type="button" matTooltip="show details"
+                                            class="btn btn-primary btn-link btn-sm btn-just-icon" [routerLink]="['/test/',u2.id]" >
+                                            <i class="material-icons">
+                                            visibility
+                                            </i>
+                                            </button>
+                                            </td>
+                                            <td>
+                                                <mat-slide-toggle (change)="toggle($event,u2)">
+                                                    Activate   
+                                                </mat-slide-toggle>
+                                            </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+    
+    

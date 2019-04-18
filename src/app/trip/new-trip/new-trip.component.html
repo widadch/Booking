@@ -1,0 +1,477 @@
+<div class="container" style="margin-top: 80px;">
+  <wizard>
+    <!--information Trips-->
+
+    <wizard-step stepTitle="Informations about Trip" [canExit]='true'>
+      
+      <form [formGroup]="tripForm" (ngSubmit)="onSubmit()" class="forms ">
+        <fieldset>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Title*</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="staticEmail" formControlName="title">
+              <div *ngIf="tripForm.get('title').invalid">
+                <p class="text-danger">{{titleErrors}}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw" >Description*</label>
+            <div class="col-sm-10">
+              <textarea rows="10" class="form-control" id="staticEmail" formControlName="description"></textarea>
+              <div *ngIf="tripForm.get('description').invalid">
+                <p class="text-danger"> {{descriptionErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Date Validate Start*</label>
+            <div class="col-sm-10">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker"
+                formControlName="dateStartValidate" (keyup)="d.toggle()" (click)="d.toggle()">
+              <div *ngIf="tripForm.get('dateStartValidate').invalid">
+                <p class="text-danger"> {{dateStartErrors}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Date Validate End*</label>
+            <div class="col-sm-10">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker"
+                formControlName="dateEndValidate" (keyup)="d1.toggle()" (click)="d1.toggle()" [min]="date.value">
+              <div *ngIf="tripForm.get('dateEndValidate').invalid">
+                <p class="text-danger"> {{dateEndErrors}}</p>
+              </div>
+              <div *ngIf="tripForm.valid && date>=date1">
+                  <p class="text-danger"> start date larger at end date </p>
+                </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Duration(Nights)*</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="staticEmail" min="1" formControlName="duration">
+              <div *ngIf="tripForm.get('duration').invalid">
+                <p class="text-danger"> {{durationErrors}}</p>
+              </div>
+            </div>
+          </div>
+          <ng-template #cont let-c="close" let-d="dismiss">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Trip Addition </h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h5 class="text-success">
+                you really want to go to the next step?
+              </h5>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="c('Save click')" nextStep>Save</button>
+            </div>
+          </ng-template>
+        <div *ngIf="tripForm.valid">
+            <button type="submit" class="btn btn-success" (click)="open(cont)">Next Step</button>
+          </div>
+
+          <div *ngIf="!tripForm.valid">
+            <button type="submit" class="btn btn-success">Next Step</button>
+          </div>
+          
+        </fieldset>
+      </form>
+    </wizard-step>
+
+    <!--information Price-->
+    <wizard-step stepTitle="Price" awOptionalStep>
+      <div class="leftSidebar" *ngIf="listPrice.length!==0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Price</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let price of listPrice">
+              <td>{{price.name}}</td>
+              <td>{{price.price}}/{{price.category}}</td>
+              <td>
+                <button type="button" class="btn btn-secondary" style="height: 30px; width: 40px;"
+                  (click)="deletePrice(price)">
+                  <img src="/assets/images/cancel.png" style="height: 30px; width: 40px;">
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <form [formGroup]="priceForm" (ngSubmit)="onSubmit1()" class="forms">
+        <fieldset>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Price Title*</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="staticEmail" formControlName="PriceTitle">
+              <div *ngIf="priceForm.get('PriceTitle').invalid">
+                <p class="text-danger"> {{priceTitleErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">price per*</label>
+            <div class="col-sm-10">
+              <select class="form-control" formControlName="category">
+                <option>Person</option>
+                <option>Group</option>
+              </select>
+              <div *ngIf="priceForm.get('category').invalid">
+                <p class="text-danger"> {{categoryErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Min Size Group*</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="staticEmail" formControlName="sizeMin">
+              <div *ngIf="priceForm.get('sizeMin').invalid">
+                <p class="text-danger"> {{minSizeErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Max Size Group*</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="staticEmail" formControlName="sizeMax">
+              <div *ngIf="priceForm.get('sizeMax').invalid">
+                <p class="text-danger"> {{maxSizeErrors}}</p>
+              </div>
+              <p class="text-danger"> {{MaxMinErrors}}</p>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Price*</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="staticEmail" formControlName="price">
+              <div *ngIf="priceForm.get('price').invalid">
+                <p class="text-danger"> {{priceErrors}}</p>
+              </div>
+            </div>
+          </div>
+          <div style="float: right;">
+            <button type="submit" class="btn btn-primary">Add Price</button>
+          </div>
+        </fieldset>
+      </form>
+
+      <button type="button" class="btn  btn-danger" previousStep>Go to previous step</button>
+      <button type="button" class="btn btn-success" nextStep>Go to next step</button>
+
+    </wizard-step>
+
+    <!--information Includes-->
+    <wizard-step stepTitle="Includes">
+
+      <div class="leftSidebar" *ngIf="listIncludes.length!==0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let include of listIncludes">
+              <td>{{include.title}}</td>
+
+              <td>
+                <button type="button" class="btn btn-secondary" style="height: 30px; width: 40px;"
+                  (click)="deleteIncludes(include)">
+
+                  <img src="/assets/images/cancel.png" style="height: 30px; width: 40px;">
+
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <form [formGroup]="tripFormIncludes" (ngSubmit)="onSubmit4()" class="forms">
+        <fieldset>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw"> Title*</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="staticEmail" formControlName="IncludeTitle">
+              <div *ngIf="tripFormIncludes.get('IncludeTitle').invalid">
+                <p class="text-danger">{{IncludeTitleErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Description*</label>
+            <div class="col-sm-10">
+              <textarea rows="10" class="form-control" id="staticEmail" formControlName="IncludeDescription"></textarea>
+              <div *ngIf="tripFormIncludes.get('IncludeDescription').invalid">
+                <p class="text-danger">{{IncludeDescriptionErrors}}</p>
+              </div>
+            </div>
+          </div>
+          <div style="float: right;">
+            <button type="submit" class="btn btn-primary">Add Include</button>
+          </div>
+
+        </fieldset>
+      </form>
+      <button type="button" previousStep class="btn btn-danger">Previous Step</button>
+      <button type="button" class="btn btn-success" nextStep>Next Step</button>
+
+    </wizard-step>
+
+    <!--information Excludes-->
+    <wizard-step stepTitle="Excludes">
+
+      <div class="leftSidebar" *ngIf="listExcludes.length!==0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let exclude of listExcludes">
+              <td>{{exclude.title}}</td>
+
+              <td>
+                <button type="button" class="btn btn-secondary" style="height: 30px; width: 40px;"
+                  (click)="deleteExcludes(exclude)">
+
+                  <img src="/assets/images/cancel.png" style="height: 30px; width: 40px;">
+
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <form [formGroup]="tripFormExcludes" (ngSubmit)="onSubmit5()" class="forms">
+        <fieldset>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw"> Title*</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="staticEmail" formControlName="ExludesTitle">
+              <div *ngIf="tripFormExcludes.get('ExludesTitle').invalid">
+                <p class="text-danger">{{ExludesTitleErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Description*</label>
+            <div class="col-sm-10">
+              <textarea rows="10" class="form-control" id="staticEmail" formControlName="ExcludeDescription"></textarea>
+              <div *ngIf="tripFormExcludes.get('ExcludeDescription').invalid">
+                <p class="text-danger">{{ExcludeDescriptionErrors}}</p>
+              </div>
+            </div>
+          </div>
+          <div style="float: right;">
+            <button type="submit" class="btn btn-primary">Add Exludes</button>
+          </div>
+
+        </fieldset>
+      </form>
+      <button type="button" previousStep class="btn btn-danger">Previous Step</button>
+      <button type="button" class="btn btn-success" nextStep>Next Step</button>
+
+    </wizard-step>
+
+
+
+    <!--information Outline-->
+    <wizard-step stepTitle="Outline">
+
+      <div class="leftSidebar" *ngIf="listItinerary.length!==0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let itinerary of listItinerary">
+              <td>{{itinerary.title}}</td>
+              <td>{{itinerary.duration}}</td>
+              <td>
+                <button type="button" class="btn btn-secondary" style="height: 30px; width: 40px;"
+                  (click)="deleteItinerary(itinerary)">
+
+                  <img src="/assets/images/cancel.png" style="height: 30px; width: 40px;">
+
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <form [formGroup]="outlineForm" (ngSubmit)="onSubmit2()" class="forms">
+        <fieldset>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Itinerary Title*</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="staticEmail" formControlName="ItineraryTitle">
+              <div *ngIf="outlineForm.get('ItineraryTitle').invalid">
+                <p class="text-danger">{{ItineraryTitleErors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Description*</label>
+            <div class="col-sm-10">
+              <textarea rows="10" class="form-control" id="staticEmail"
+                formControlName="ItineraryDescription"></textarea>
+              <div *ngIf="outlineForm.get('ItineraryDescription').invalid">
+                <p class="text-danger">{{ItineraryDescriptionErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Duration*</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="staticEmail" formControlName="ItineraryDuration">
+              <div *ngIf="outlineForm.get('ItineraryDuration').invalid">
+                <p class="text-danger">{{ItineraryDurationErrors}}</p>
+              </div>
+            </div>
+          </div>
+          <div style="float: right;">
+            <button type="submit" class="btn btn-primary">Add Itinerary</button>
+          </div>
+
+        </fieldset>
+      </form>
+      <button type="button" previousStep class="btn btn-danger">Previous Step</button>
+      <button type="button" class="btn btn-success" nextStep>Next Step</button>
+
+    </wizard-step>
+
+    <wizard-step stepTitle="Trip Extras">
+
+      <div class="leftSidebar" *ngIf="listTripExtras.length!==0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tripExtras of listTripExtras">
+              <td>{{tripExtras.title}}</td>
+              <td>
+                <button type="button" class="btn btn-secondary" style="height: 30px; width: 40px;"
+                  (click)="deleteTripExtras(tripExtras)">
+
+                  <img src="/assets/images/cancel.png" style="height: 30px; width: 40px;">
+
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <form [formGroup]="tripExtrasForm" (ngSubmit)="onSubmit3()" class="forms">
+        <fieldset>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Title*</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="staticEmail" formControlName="TripExtrasTitle">
+              <div *ngIf="tripExtrasForm.get('TripExtrasTitle').invalid">
+                <p class="text-danger">{{TripExtrasTitleErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">Description*</label>
+            <div class="col-sm-10">
+              <textarea rows="10" class="form-control" id="staticEmail"
+                formControlName="TripExtrasDescription"></textarea>
+              <div *ngIf="tripExtrasForm.get('TripExtrasDescription').invalid">
+                <p class="text-danger">{{TripExtrasDescriptionErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">price*</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="staticEmail" formControlName="TripExtrasPrice">
+              <div *ngIf="tripExtrasForm.get('TripExtrasPrice').invalid">
+                <p class="text-danger">{{TripExtrasPriceErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label fw">unit*</label>
+            <div class="col-sm-10">
+              <select class="form-control" id="staticEmail" formControlName="TripExtrasUnit">
+                <option>unit</option>
+                <option>unit</option>
+              </select>
+              <div *ngIf="tripExtrasForm.get('TripExtrasUnit').invalid">
+                <p class="text-danger">{{TripExtrasUnitErrors}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="float: right;">
+            <button type="submit" class="btn btn-primary">Add Trip Extras</button>
+          </div>
+
+        </fieldset>
+      </form>
+      <button type="button" previousStep class="btn btn-danger">Previous Step</button>
+
+      <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Trip Addition </h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5 class="text-success">Are you sure you want to add this Packages?</h5>
+          <p>
+            All information associated to this Package will be permanently added. This operation can not be undone.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="addTrip();c('Save click')">Save</button>
+        </div>
+      </ng-template>
+      <div style="float: right;">
+        <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Finich</button>
+      </div>
+    </wizard-step>
+
+  </wizard>
+</div>

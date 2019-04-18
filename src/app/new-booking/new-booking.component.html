@@ -1,0 +1,61 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md">
+        <div class="card">
+         
+          <div class="card-body">
+              <div class="card-body table-responsive">
+                  <table class="table table-hover">
+                    <thead class="text-warning">
+                      <th>
+                         Title
+                      </th>
+                      <th>
+                          Pax
+                        </th>
+                        <th>
+                          Date Travel
+                          </th>  
+                        <th style="float: right;">
+                          Price
+                          </th>  
+                    </thead>
+                      <tbody>
+                        <tr *ngFor="let price of trip.tripPricesList">
+                        <td *ngIf="price.id==idPrice" style="max-width: 150px;"><b>{{trip.title}}</b></td>
+                        <td *ngIf="price.id==idPrice" style="max-width: 80px;"  [(ngModel)]="pax" name="prix" ngDefaultControl>
+                          <mat-form-field>
+                           <input matInput placeholder="Pax" type="number" min="{{price.minSize}}" max="{{price.maxSize}}" >
+                          </mat-form-field> 
+                        </td>
+                        <td *ngIf="price.id==idPrice" style="max-width: 80px;" >
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker"
+                             (keyup)="d.toggle()" (click)="d.toggle()">
+                        </td>
+                    <td *ngIf="price.id==idPrice" style="float: right;"  [(ngModel)]="priceU" name="prix" ngDefaultControl>{{price.price}} $</td>
+                    <div *ngIf="price.id==idPrice">
+                    {{setPriceU(price.price)}}
+                  </div>
+                      </tr>
+                   
+                      </tbody>
+                  </table>
+                  <div *ngIf="trip.tripesExtras.length > 0">
+                    you want to add additional services for your package?
+                  </div>
+                
+                    <mat-checkbox class="check" (change)="showOptions($event,tripExtras.price)" *ngFor="let tripExtras of trip.tripesExtras">          {{tripExtras.title}}</mat-checkbox> 
+                
+                <div style="margin-top: 50px; float: right;color: red;font: bold;" [(ngModel)]="Totalprice"  name="Total" ngDefaultControl>
+                 
+                    Prix Total :{{setTotalPrice()}} $
+                </div>
+                  
+            </div>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</div>

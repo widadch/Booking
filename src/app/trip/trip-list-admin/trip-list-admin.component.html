@@ -1,0 +1,114 @@
+ <div class="main-content">
+  <div class="container-fluid">
+ 
+    <div class="row">
+      <div class="col-md-12">
+          <div>
+              <button class="btn btn-success" style="float: right; margin-bottom: 50px;" (click)="goToAddTrip()">
+                  <i class="material-icons">
+                      add
+                      </i>
+                Add Trip
+                  </button>
+                </div>
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title ">List</h4>
+         
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+          <div *ngIf="trips?.length===0">
+            List Emty  
+          </div>
+          <div *ngIf="trips?.length>0">
+            <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    Title
+                  </th>
+                  <th>
+                    Status
+                  </th>
+                  <th>
+                    Bookings
+                  </th>
+                 
+                </thead>
+                <tbody>
+                  <tr *ngFor="let trip of trips | paginate: {
+                                      itemsPerPage: 6,
+                                      currentPage: p}" class="col-6"> 
+                    <td>
+                      {{trip.title}}
+                    </td>
+                    <td>
+                      <div *ngIf="compareToDate(current,trip.dateValidateStart)===0 && compareToDate(trip.dateValidateEnd,current)===0">
+                     <p style="color: green"><img src="assets/images/check.png" width="15px" height="15px"> validate</p>
+                   
+                      </div>
+
+                      <div *ngIf="compareToDate(current,trip.dateValidateStart)===1  || compareToDate(trip.dateValidateEnd,current)===1">
+                        <p style="color: red"><img src="assets/images/croix.png" width="20px" height="20px">expired </p>
+                     
+                        </div>
+                    
+
+                    </td>
+                  
+
+                      <td>
+                        <button mat-raised-button type="button" matTooltip="show details"
+                        class="btn btn-primary btn-link btn-sm btn-just-icon" [routerLink]="['/bookings',trip.id]" >
+                        <i class="material-icons">
+                            visibility
+                        </i>
+                        </button>
+                        
+
+
+
+
+                    </td>
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" matTooltip="Edit Task"
+                        class="btn btn-primary btn-link btn-sm btn-just-icon" [routerLink]="['/modifyTrips/', trip.id]">
+                        <i class="material-icons">edit</i>
+                      </button>
+
+                      <ng-template #content let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="modal-basic-title">Delete Trip </h4>
+                          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <h5 class="text-success">Are you sure you want to delete this Packages?</h5>
+                          <p>
+                            All information associated to this Package will be permanently deleted. This operation can
+                            not be undone.
+                          </p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-outline-dark"
+                            (click)="deleteTrip(trip.id);c('Save click')">delete</button>
+                        </div>
+                      </ng-template>
+                      <button mat-raised-button type="button" matTooltip="Remove" (click)="open(content)"
+                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <pagination-controls (pageChange)="p =$event" style="float: right;"></pagination-controls>
+
+</div>

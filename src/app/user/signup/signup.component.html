@@ -1,0 +1,143 @@
+<div class="container">
+  <div class="row justify-content-center">
+                      <div class="col-md-8">
+                          <div class="card">
+                              <div class="card-header"></div>
+                              <div class="card-body">
+  
+                                  <form class="form-horizontal" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  
+
+                                    <div class="form-group">
+                                        <label for="username" class="cols-sm-2 control-label">Username</label>
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                                                <input type="text" class="form-control" name="username" id="username" placeholder="Enter your Username" formControlName="username"/>
+                                                <div *ngIf="!userForm.get('username').valid && userForm.get('username').touched" >
+              
+                                                      <p style="color:#FF0000">required</p>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     
+                                    <div class="form-group">
+                                        <label for="email" class="cols-sm-2 control-label">Email</label>
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-envelope"  aria-hidden="true"></i></span>
+                                                <input type="text" class="form-control" name="email" id="email" placeholder="Enter your Email" formControlName="email"/>
+                                                <div *ngIf="!userForm.get('email').valid && userForm.get('email').touched" >
+              
+                                                      <p style="color:#FF0000">required</p>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+                                  <div class="form-group">
+                                        <label for="type" class="cols-sm-2 control-label">Status</label>
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                                                <select id="status"   class="form-control" name="status" formControlName="status" (click)="selectedType(status)"  >
+                                               
+                                                    <option 
+                                                      >Visitor</option>
+                                                      <option 
+                                                      >adminAgency</option>
+                                                    
+                                                    </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="type" class="cols-sm-2 control-label">type</label>
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                                                <select id="type"   class="form-control" name="type" formControlName="type" >
+                                               
+                                                    <option 
+                                                      >AdminAgency</option>
+                                                      <option 
+                                                      >tour operator</option>
+                                                    
+                                                    </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="authorization" class="cols-sm-2 control-label">Authorization Number</label>
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></span>
+                                                <input type="number" class="form-control" name="authorization" id="authorization" placeholder="Enter your authorization number" formControlName="authorization"/>
+                                                <div *ngIf="!userForm.get('authorization').valid && userForm.get('authorization').touched" >
+              
+                                                      <p style="color:#FF0000">required</p>
+                                                   
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                      <div class="form-group">
+                                          <label for="password" class="cols-sm-2 control-label">Password</label>
+                                          <div class="cols-sm-10">
+                                              <div class="input-group">
+                                                  <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                                  <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" formControlName="password" />
+                                                  <div *ngIf="!userForm.get('password').valid && userForm.get('password').touched" >
+                
+                                                        <p style="color:#FF0000">required</p>
+                                                     
+                                                      </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                                          <div class="cols-sm-10">
+                                              <div class="input-group">
+                                                  <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                                  <input type="password" class="form-control" name="confirm" id="confirm" placeholder="Confirm your Password" formControlName="password"/>
+                                                  <div *ngIf="!userForm.get('password').valid && userForm.get('password').touched" >
+                
+                                                        <p style="color:#FF0000">required</p>
+                                                     
+                                                      </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                                      </div>
+                                      <div class="login-register">
+                                          <a [routerLink]="['/signin']">Login</a>
+                                      </div>
+                                  </form>
+                              </div>
+  
+                          </div>
+                      </div>
+                  </div>
+  </div>

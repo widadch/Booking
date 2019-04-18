@@ -1,0 +1,102 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+
+
+ 
+     <div class="col-md-12">
+  <div class="card">
+
+
+      <div class="card-header card-header-danger">
+          <h4 class="card-title">users bookings</h4>
+          <p class="card-category"></p>
+      </div>
+      <div class="card-body table-responsive">
+     
+          <table class="table table-hover" >
+
+              <thead class="text-primary">
+                  
+
+                  
+                  <th>    
+                  <!-- <input type="text" #myInput [(ngModel)]="statusBooking" (input)="Search2()"  placeholder="search by statusBooking"/>  -->
+                  <form class="form-horizontal" [formGroup]="userForm">
+                      <div class="input-group mb-3">
+                          <select class="custom-select" id="statusBooking"  formControlName="statusBooking" (click)="Search2()">
+                           <option selected>All status</option>
+                            <option value="Valider">Valider</option>
+                            <option value="Annuler">Annuler</option>
+                          </select>
+                         
+                        </div>
+                  </form>
+                  </th>
+
+                  
+                  
+                 
+                                  
+               </thead>
+
+
+              <thead class="text-primary">
+                  
+
+
+                 <th>Username</th>
+                 <th>Status Booking</th>
+                  <th>Date Booking</th>
+                  <th>Date Travel</th>
+                  <th>Price</th>
+                  <th>Status</th> 
+              </thead>
+              <tbody>
+                  <tr *ngFor="let b1 of  booking | paginate: {itemsPerPage: 5, currentPage: p}">
+                      <td>
+
+
+                        <p [routerLink]="['/test/',b1.visitor.id]" style="cursor: pointer;">
+                      {{b1.visitor.username}}
+                     
+                        
+                    
+                    
+                    
+                    
+                    </td>
+                      <td>{{b1.statusBooking}}</td>
+                      <td>{{b1.dateBooking}}</td>
+                      <td>{{b1.dateTravel}}</td>
+                      <td>{{b1.price}}</td>
+                      <td>
+                        <a [routerLink]="['./']" title="Change Status" (click)="toggle(b1)">
+                          <!-- green span -->
+                          <span class="text-success" *ngIf="b1.statusBooking == 'Valider'">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            <span>Enable</span>
+                          </span>
+                          <!-- red span -->
+                          <span class="text-danger" *ngIf="b1.statusBooking == 'Annuler'">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            <span>Disable </span>
+                          </span>
+                          <!-- yellow span -->
+                          <span class="text-warning" *ngIf="b1.statusBooking == 'En attente'">
+                            <i class="fa fa-warning" aria-hidden="false"></i>
+                            <span>Pending </span>
+                          </span>
+                        </a>
+                      </td>
+                  </tr>
+                  
+              </tbody>
+          </table>
+      </div>
+  </div>
+      </div>
+  </div>
+  <pagination-controls (pageChange)="p =$event" maxSize="4" style="float: right;"></pagination-controls>
+
+</div>

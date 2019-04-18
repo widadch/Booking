@@ -1,0 +1,68 @@
+<div class="container" style="margin-top: 80px;">
+  <p>
+    <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
+            [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" style="float: right;">
+      Filter
+    </button>
+  </p>
+  <div id="collapseExample" [ngbCollapse]="isCollapsed">
+
+<div class="card border-primary mb-3" style="max-width: 200em;">
+  <div class="card-header">Filter By</div>
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <h4 class="card-title">Price</h4>
+      <div class="card-text">
+        <button type="button" class="btn btn-primary" [disabled]="isLowToHigh" (click)="isLowToHighFunction()"
+          >Low to high</button>
+        <button type="button" class="btn btn-primary" [disabled]="isHighToLow" (click)="isHighToLowFunction()"
+          >high to low</button>
+
+      </div>
+      
+      <h4 class="card-title">Locations</h4>
+      <div class="card-text">
+        <select class="form-control" id="exampleSelect1" name="location" [(ngModel)]='loc'>
+
+          <option *ngFor="let location of locations">{{location.name}}</option>
+        </select>
+      </div>
+
+      <h4 class="card-title">Range Price</h4>
+      <div class="card-text">
+        <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options" name="ngs" ngModel></ng5-slider>
+      </div>
+      <button class="btn btn-info" type="submit">Search</button>
+    </form>
+  </div>
+</div>
+</div>
+
+
+<pagination-controls (pageChange)="p =$event"></pagination-controls>
+
+<div class="row card-group">
+  <div *ngFor="let trip of trips | paginate: {
+        itemsPerPage: 4,
+        currentPage: p}" class="col-6">
+
+    <div class="card mb-3">
+      <h3 class="card-header">{{trip.title}}</h3>
+      <img style="height: 200px; width: 100%; display: block;"
+        src="/assets/img/1/1-1.jpg"
+        alt="Card image">
+      <div class="card-body">
+        <p class="card-text">{{trip.description}}.</p>
+      </div>
+      <div class="card-body">
+        <a [routerLink]="['/trips/', trip.id]" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+      <div class="card-footer text-muted">
+        {{trip.duration}} Nights
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
